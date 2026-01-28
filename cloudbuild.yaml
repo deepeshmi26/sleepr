@@ -32,4 +32,4 @@ steps:
     id: 'push-auth'
 serviceAccount: 'projects/sleepr-485709/serviceAccounts/sleepr-sa@sleepr-485709.iam.gserviceaccount.com'
 options:
-  - logging: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_ONLY
