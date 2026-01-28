@@ -1,0 +1,56 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Reservations",
+            "type": "node",
+            "request": "attach",
+            "port": 9229,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/user/src/app",
+            "restart": true
+        },
+        {
+            "name": "Debug Auth",
+            "type": "node",
+            "request": "attach",
+            "port": 9230,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/user/src/app",
+            "restart": true
+        },
+        {
+            "name": "Debug Payments",
+            "type": "node",
+            "request": "attach",
+            "port": 9231,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/user/src/app",
+            "restart": true
+        },
+        {
+            "name": "Debug Notifications",
+            "type": "node",
+            "request": "attach",
+            "port": 9232,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/user/src/app",
+            "restart": true
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug All Services",
+            "configurations": [
+                "Debug Auth",
+                "Debug Reservations",
+                "Debug Payments",
+                "Debug Notifications"
+            ]
+        }
+    ]
+}

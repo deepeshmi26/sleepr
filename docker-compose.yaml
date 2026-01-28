@@ -1,13 +1,70 @@
 services:
   reservations:
-      build:
-        context: .
-        dockerfile: ./apps/reservations/Dockerfile
-        target: development
-      command: pnpm run start:dev reservations
-      ports:
-        - '3000:3000'
-      volumes:
-        - .:/user/src/app
+    build:
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      target: development
+    command: pnpm run start:debug:docker reservations
+    environment:
+      - DEBUG_HOST=0.0.0.0
+      - DEBUG_PORT=9229
+    env_file:
+      - ./apps/reservations/.env
+    ports:
+      - '3000:3000'
+      - '9229:9229'
+    volumes:
+      - .:/user/src/app
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: pnpm run start:debug:docker auth
+    environment:
+      - DEBUG_HOST=0.0.0.0
+      - DEBUG_PORT=9230
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - '3001:3001'
+      - '9230:9230'
+    volumes:
+      - .:/user/src/app
+
+  payments:
+    build:
+      context: .
+      dockerfile: ./apps/payments/Dockerfile
+      target: development
+    command: pnpm run start:debug:docker payments
+    environment:
+      - DEBUG_HOST=0.0.0.0
+      - DEBUG_PORT=9231
+    env_file:
+      - ./apps/payments/.env
+    ports:
+      - '3002:3002'
+      - '9231:9231'
+    volumes:
+      - .:/user/src/app
+
+  notifications:
+    build:
+      context: .
+      dockerfile: ./apps/notifications/Dockerfile
+      target: development
+    command: pnpm run start:debug:docker notifications
+    environment:
+      - DEBUG_HOST=0.0.0.0
+      - DEBUG_PORT=9232
+    env_file:
+      - ./apps/notifications/.env
+    ports:
+      # - '3003:3003'
+      - '9232:9232'
+    volumes:
+      - .:/user/src/app
+
   mongo:
     image: mongo
