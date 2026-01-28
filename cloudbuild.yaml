@@ -1,35 +1,89 @@
 steps:
   # Reservations
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south1-docker.pkg.dev/sleepr-485709/reservations/production', '-f', 'apps/reservations/Dockerfile']
-    id: 'build-reservations'
+    args:
+      [
+        'build', 
+        '-t',
+        'asia-south1-docker.pkg.dev/sleepr-485709/reservations/production',
+        '-f',
+        'apps/reservations/Dockerfile',
+        '.'
+      ]
+    id: build-reservations
+
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-south1-docker.pkg.dev/sleepr-485709/reservations/production']
-    id: 'push-reservations'
+    args:
+      [ 
+        'push', 
+        'asia-south1-docker.pkg.dev/sleepr-485709/reservations/production'
+      ]
+    id: push-reservations
 
   # Payments
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south1-docker.pkg.dev/sleepr-485709/payments/production', '-f', 'apps/payments/Dockerfile']
-    id: 'build-payments'
+    args:
+      [
+        'build',
+        '-t',
+        'asia-south1-docker.pkg.dev/sleepr-485709/payments/production',
+        '-f',
+        'apps/payments/Dockerfile',
+        '.'
+      ]
+    id: build-payments
+
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-south1-docker.pkg.dev/sleepr-485709/payments/production']
-    id: 'push-payments'
+    args:
+      [
+        'push',
+        'asia-south1-docker.pkg.dev/sleepr-485709/payments/production'
+      ]
+    id: push-payments
 
   # Notifications
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south1-docker.pkg.dev/sleepr-485709/notifications/production', '-f', 'apps/notifications/Dockerfile']
-    id: 'build-notifications'
+    args:
+      [
+        'build',
+        '-t',
+        'asia-south1-docker.pkg.dev/sleepr-485709/notifications/production',
+        '-f',
+        'apps/notifications/Dockerfile',
+        '.'
+      ]
+    id: build-notifications
+
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-south1-docker.pkg.dev/sleepr-485709/notifications/production']
-    id: 'push-notifications'
+    args:
+      [
+        'push',
+        'asia-south1-docker.pkg.dev/sleepr-485709/notifications/production'
+      ]
+    id: push-notifications
 
   # Auth
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'asia-south1-docker.pkg.dev/sleepr-485709/auth/production', '-f', 'apps/auth/Dockerfile']
-    id: 'build-auth'
+    args:
+      [
+        'build',
+        '-t',
+        'asia-south1-docker.pkg.dev/sleepr-485709/auth/production',
+        '-f',
+        'apps/auth/Dockerfile',
+        '.'
+      ]
+    id: build-auth
+
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'asia-south1-docker.pkg.dev/sleepr-485709/auth/production']
-    id: 'push-auth'
-serviceAccount: 'projects/sleepr-485709/serviceAccounts/sleepr-sa@sleepr-485709.iam.gserviceaccount.com'
+    args:
+      [
+        'push',
+        'asia-south1-docker.pkg.dev/sleepr-485709/auth/production'
+      ]
+    id: push-auth
+
+serviceAccount: sleepr-sa@sleepr-485709.iam.gserviceaccount.com
+
 options:
   logging: CLOUD_LOGGING_ONLY
