@@ -30,3 +30,4 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'asia-south1-docker.pkg.dev/sleepr-485709/auth/production']
     id: 'push-auth'
+  serviceAccount: 'projects/sleepr-485709/serviceAccounts/sleepr-sa@sleepr-485709.iam.gserviceaccount.com'
