@@ -9,7 +9,6 @@ import * as Joi from 'joi';
   imports: [LoggerModule, ConfigModule.forRoot({
     isGlobal: true,
     validationSchema: Joi.object({
-      HTTP_PORT: Joi.number().required(),
       TCP_PORT: Joi.number().required(),
       SMTP_USER: Joi.string().required(),
       GOOGLE_OAUTH_CLIENT_ID: Joi.string().required(),
