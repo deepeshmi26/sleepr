@@ -31,4 +31,4 @@ RUN pnpm install --prod
 
 COPY --from=development /user/src/app/dist ./dist
 
-CMD ["node", "dist/apps/users/main"]
+CMD ["node", "dist/apps/auth/main"]
