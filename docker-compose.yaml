@@ -23,12 +23,12 @@ services:
     command: pnpm run start:debug:docker auth
     environment:
       - DEBUG_HOST=0.0.0.0
-      - DEBUG_PORT=9230
+      - DEBUG_PORT=9229
     env_file:
       - ./apps/auth/.env
     ports:
-      - '3001:3001'
-      - '9230:9230'
+      - '3001:3000'
+      - '9230:9229'
     volumes:
       - .:/user/src/app
 
@@ -40,12 +40,12 @@ services:
     command: pnpm run start:debug:docker payments
     environment:
       - DEBUG_HOST=0.0.0.0
-      - DEBUG_PORT=9231
+      - DEBUG_PORT=9229
     env_file:
       - ./apps/payments/.env
     ports:
-      - '3002:3002'
-      - '9231:9231'
+      - '3002:3000'
+      - '9231:9229'
     volumes:
       - .:/user/src/app
 
@@ -57,12 +57,12 @@ services:
     command: pnpm run start:debug:docker notifications
     environment:
       - DEBUG_HOST=0.0.0.0
-      - DEBUG_PORT=9232
+      - DEBUG_PORT=9229
     env_file:
       - ./apps/notifications/.env
     ports:
       # - '3003:3003'
-      - '9232:9232'
+      - '9232:9229'
     volumes:
       - .:/user/src/app
 
