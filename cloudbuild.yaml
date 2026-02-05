@@ -1,18 +1,8 @@
 steps:
-  - name: gcr.io/cloud-builders/docker
-    entrypoint: bash
-    args:
-      - -c
-      - |
-        docker buildx create --name multiarch-builder --use
-        docker buildx inspect --bootstrap
   # Reservations
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      [
-        'buildx',
-        'build', 
-        '--platform=linux/amd64,linux/arm64',
+      ['build', 
         '-t',
         'asia-south1-docker.pkg.dev/sleepr-485709/reservations/production',
         '-f',
@@ -33,9 +23,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
-        'buildx',
-        'build', 
-        '--platform=linux/amd64,linux/arm64',
+        'build',
         '-t',
         'asia-south1-docker.pkg.dev/sleepr-485709/payments/production',
         '-f',
@@ -56,9 +44,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
-        'buildx',
-        'build', 
-        '--platform=linux/amd64,linux/arm64',
+        'build',
         '-t',
         'asia-south1-docker.pkg.dev/sleepr-485709/notifications/production',
         '-f',
