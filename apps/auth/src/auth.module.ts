@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { LocalStrategy } from './strategies/local.strategy';
+import { HealthModule } from '@app/common';
 @Module({
   imports: [UsersModule, LoggerModule, ConfigModule.forRoot({
     isGlobal: true,
@@ -23,7 +24,7 @@ import { LocalStrategy } from './strategies/local.strategy';
       signOptions: { expiresIn: `${configService.get('JWT_EXPIRATION')}s` },
     }),
     inject: [ConfigService],
-  })],
+  }), HealthModule],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy],
 })
