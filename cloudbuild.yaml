@@ -1,4 +1,11 @@
 steps:
+  - name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        docker buildx create --name multiarch-builder --use
+        docker buildx inspect --bootstrap
   # Reservations
   - name: 'gcr.io/cloud-builders/docker'
     args:
