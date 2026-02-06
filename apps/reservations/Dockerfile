@@ -1,4 +1,4 @@
-FROM node:alpine As development
+FROM node:18-alpine As development
 
 WORKDIR /user/src/app
 
@@ -15,7 +15,7 @@ RUN pnpm install -r
 
 RUN pnpm run build reservations
 
-FROM node:alpine As production
+FROM node:18-alpine As production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
