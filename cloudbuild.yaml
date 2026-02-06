@@ -25,67 +25,52 @@ steps:
       ]
 
   # Payments
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: gcr.io/cloud-builders/docker
+    id: build-and-push-payments
     args:
       [
-        'build',
-        '-t',
-        'asia-south1-docker.pkg.dev/sleepr-485709/payments/production',
-        '-f',
-        'apps/payments/Dockerfile',
-        '.'
+        "buildx",
+        "build",
+        "--platform=linux/amd64,linux/arm64",
+        "-t",
+        "asia-south1-docker.pkg.dev/sleepr-485709/payments/production",
+        "-f",
+        "apps/payments/Dockerfile",
+        "--push",
+        "."
       ]
-    id: build-payments
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'push',
-        'asia-south1-docker.pkg.dev/sleepr-485709/payments/production'
-      ]
-    id: push-payments
 
   # Notifications
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: gcr.io/cloud-builders/docker
+    id: build-and-push-notifications
     args:
       [
-        'build',
-        '-t',
-        'asia-south1-docker.pkg.dev/sleepr-485709/notifications/production',
-        '-f',
-        'apps/notifications/Dockerfile',
-        '.'
+        "buildx",
+        "build",
+        "--platform=linux/amd64,linux/arm64",
+        "-t",
+        "asia-south1-docker.pkg.dev/sleepr-485709/notifications/production",
+        "-f",
+        "apps/notifications/Dockerfile",
+        "--push",
+        "."
       ]
-    id: build-notifications
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'push',
-        'asia-south1-docker.pkg.dev/sleepr-485709/notifications/production'
-      ]
-    id: push-notifications
 
   # Auth
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: gcr.io/cloud-builders/docker
+    id: build-and-push-auth
     args:
       [
-        'build',
-        '-t',
-        'asia-south1-docker.pkg.dev/sleepr-485709/auth/production',
-        '-f',
-        'apps/auth/Dockerfile',
-        '.'
+        "buildx",
+        "build",
+        "--platform=linux/amd64,linux/arm64",
+        "-t",
+        "asia-south1-docker.pkg.dev/sleepr-485709/auth/production",
+        "-f",
+        "apps/auth/Dockerfile",
+        "--push",
+        "."
       ]
-    id: build-auth
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      [
-        'push',
-        'asia-south1-docker.pkg.dev/sleepr-485709/auth/production'
-      ]
-    id: push-auth
 
 serviceAccount: sleepr-sa@sleepr-485709.iam.gserviceaccount.com
 
