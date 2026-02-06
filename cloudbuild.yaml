@@ -1,23 +1,28 @@
 steps:
-  # Reservations
-  - name: 'gcr.io/cloud-builders/docker'
+  # 1. Create and use a buildx builder
+  - name: gcr.io/cloud-builders/docker
     args:
-      ['build', 
-        '-t',
-        'asia-south1-docker.pkg.dev/sleepr-485709/reservations/production',
-        '-f',
-        'apps/reservations/Dockerfile',
-        '.'
+      ['buildx',
+        'create',
+        '--name=multiarch',
+        '--use'
       ]
-    id: build-reservations
 
-  - name: 'gcr.io/cloud-builders/docker'
+  # Reservations
+  - name: gcr.io/cloud-builders/docker
+    id: build-and-push-reservations
     args:
-      [ 
-        'push', 
-        'asia-south1-docker.pkg.dev/sleepr-485709/reservations/production'
+      [
+        "buildx",
+        "build",
+        "--platform=linux/amd64,linux/arm64",
+        "-t",
+        "asia-south1-docker.pkg.dev/sleepr-485709/reservations/production",
+        "-f",
+        "apps/reservations/Dockerfile",
+        "--push",
+        "."
       ]
-    id: push-reservations
 
   # Payments
   - name: 'gcr.io/cloud-builders/docker'
