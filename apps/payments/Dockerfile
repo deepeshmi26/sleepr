@@ -7,11 +7,11 @@ COPY pnpm-lock.yaml ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
 RUN npm install -g pnpm 
+RUN pnpm install -r
+
 
 COPY apps/payments apps/payments
 COPY libs libs
-
-RUN pnpm install -r
 
 RUN pnpm run build payments
 
