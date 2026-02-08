@@ -6,6 +6,8 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
+COPY apps/notifications/package.json ./apps/notifications/package.json
+COPY apps/notifications/pnpm-lock.yaml ./apps/notifications/pnpm-lock.yaml
 RUN npm install -g pnpm 
 RUN pnpm install -r
 
