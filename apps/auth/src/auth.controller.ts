@@ -1,5 +1,5 @@
 import { CurrentUser } from '@app/common';
-import { Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import type { Response } from 'express';
 import { AuthService } from './auth.service';
@@ -10,11 +10,15 @@ import { UserDocument } from '@app/common';
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
+  @Get('health')
+  health() {
+    return { status: 'ok' };
+  }
   @UseGuards(LocalAuthGuard)
   @Post("login")
   async login(@CurrentUser() user: UserDocument, @Res({ passthrough: true }) response: Response) {
-    await this.authService.login(user, response);
-    response.send(user);
+    const jwt = this.authService.login(user, response);
+    response.send(jwt);
   }
 
   @MessagePattern('authenticate')
