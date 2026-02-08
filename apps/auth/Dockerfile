@@ -6,8 +6,11 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
-RUN npm install -g pnpm 
+COPY apps/auth/package.json ./apps/auth/package.json
+COPY apps/auth/pnpm-lock.yaml ./apps/auth/pnpm-lock.yaml
 RUN pnpm install -r
+
+RUN npm install -g pnpm 
 
 COPY apps/auth apps/auth
 COPY libs libs

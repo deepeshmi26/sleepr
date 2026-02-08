@@ -6,9 +6,10 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
+COPY apps/payments/package.json ./apps/payments/package.json
+COPY apps/payments/pnpm-lock.yaml ./apps/payments/pnpm-lock.yaml
 RUN npm install -g pnpm 
 RUN pnpm install -r
-
 
 COPY apps/payments apps/payments
 COPY libs libs
