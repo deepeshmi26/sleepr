@@ -1,11 +1,11 @@
-FROM node:alpine 
+FROM node:22-alpine
 
 WORKDIR /user/src/app
 
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm
+RUN pnpm install
+
 COPY . .
-
-RUN npm install -g pnpm 
-
-RUN pnpm install --force
 
 CMD ["pnpm", "test"]

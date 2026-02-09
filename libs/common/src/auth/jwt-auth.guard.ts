@@ -9,7 +9,7 @@ export class JwtAuthGuard implements CanActivate {
     constructor(@Inject(AUTH_SERVICE) private readonly authClient: ClientProxy) { }
     canActivate(context: ExecutionContext): Promise<boolean> | Observable<boolean> {
         const request = context.switchToHttp().getRequest();
-        const token = request.cookies?.Authentication;
+        const token = request.cookies?.Authentication || request.headers?.Authentication;
         if (!token) {
             throw new UnauthorizedException('No token provided');
         }
