@@ -6,12 +6,13 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY tsconfig.json ./
 COPY nest-cli.json ./
+COPY apps/reservations/package.json ./apps/reservations/package.json
+COPY apps/reservations/pnpm-lock.yaml ./apps/reservations/pnpm-lock.yaml
 RUN npm install -g pnpm 
+RUN pnpm install -r
 
 COPY apps/reservations apps/reservations
 COPY libs libs
-
-RUN pnpm install -r
 
 RUN pnpm run build reservations
 
