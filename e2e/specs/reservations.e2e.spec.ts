@@ -1,58 +1,66 @@
 describe('Reservations', () => {
     let jwt: string;
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    const getAuthHeaders = () => ({
+        ...headers,
+        Authentication: jwt,
+    });
+
     beforeAll(async () => {
         const user = {
-            email: 'test@test.com',
-            password: 'test',
-        }
+            email: 'sleeprnestapp@gmail.com',
+            password: 'StrongPassword123!@',
+        };
 
-        await fetch(`http://auth:3000/users`, {
-            method: 'POST',
-            body: JSON.stringify({
-                email: 'test@test.com',
-                password: 'test',
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-
-        const response = await fetch(`http://auth:3000/auth/login`, {
-            method: 'POST',
+        await fetch('http://auth:3001/users', {
+            method: 'post',
             body: JSON.stringify(user),
-            headers: {
-                'Content-Type': 'application/json',
-            }
+            headers,
         });
 
-        jwt = await response.json();
-    })
-    test('Create', async () => {
-        const response = await fetch(`http://reservations:3000/reservations`,
+        const response = await fetch('http://auth:3001/auth/login', {
+            method: 'post',
+            body: JSON.stringify(user),
+            headers,
+        });
+
+        jwt = await response.text();
+    });
+
+    test('Create & Get', async () => {
+        const createdReservation = await createReservation();
+
+        const responseGet = await fetch(
+            `http://reservations:3000/reservations/${createdReservation._id}`,
+            { headers: getAuthHeaders() },
+        );
+        const reservation = await responseGet.json();
+
+        expect(createdReservation).toEqual(reservation);
+    });
+
+    const createReservation = async () => {
+        const responseCreate = await fetch(
+            'http://reservations:3000/reservations',
             {
-                method: 'POST',
+                method: 'post',
+                headers: getAuthHeaders(),
                 body: JSON.stringify({
-                    "startDate": "2026-02-10T00:00:00.000Z",
-                    "endDate": "2026-02-15T00:00:00.000Z",
-                    "charge": {
-                        "card": {
-                            "number": "4242424242424242",
-                            "exp_month": 12,
-                            "exp_year": 2030,
-                            "cvc": "123"
-                        },
-                        "amount": 5000
-                    }
+                    startDate: '12/20/2022',
+                    endDate: '12/25/2022',
+                    charge: {
+                        amount: 5.9,
+                        payment_method: 'pm_card_visa',
+                    },
                 }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authentication': jwt,
-                }
-            }
+            },
         );
 
-        expect(response.ok).toBe(true);
-        const reservation = await response.json();
-        console.log(reservation);
-    })
-})
+        expect(responseCreate.ok).toBeTruthy();
+        return await responseCreate.json();
+    };
+});

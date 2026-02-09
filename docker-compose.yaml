@@ -1,20 +1,5 @@
 services:
-  reservations:
-    build:
-      context: .
-      dockerfile: ./apps/reservations/Dockerfile
-      target: development
-    command: pnpm run start:debug:docker reservations
-    environment:
-      - DEBUG_HOST=0.0.0.0
-      - DEBUG_PORT=9229
-    env_file:
-      - ./apps/reservations/.env
-    ports:
-      - '3000:3000'
-      - '9229:9229'
-    volumes:
-      - .:/user/src/app
+
   auth:
     build:
       context: .
@@ -26,6 +11,23 @@ services:
       - DEBUG_PORT=9229
     env_file:
       - ./apps/auth/.env
+    ports:
+      - '3000:3000'
+      - '9229:9229'
+    volumes:
+      - .:/user/src/app
+
+  reservations:
+    build:
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      target: development
+    command: pnpm run start:debug:docker reservations
+    environment:
+      - DEBUG_HOST=0.0.0.0
+      - DEBUG_PORT=9229
+    env_file:
+      - ./apps/reservations/.env
     ports:
       - '3001:3000'
       - '9230:9229'
