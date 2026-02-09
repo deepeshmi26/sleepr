@@ -7,9 +7,9 @@ metadata:
 spec:
   ports:
   - name: "tcp"
-    port: 3001
+    port: 4000
     protocol: TCP
-    targetPort: 3001
+    targetPort: 4000
   selector:
     app: payments
   type: ClusterIP
