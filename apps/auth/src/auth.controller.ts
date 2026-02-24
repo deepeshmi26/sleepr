@@ -17,7 +17,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post("login")
   async login(@CurrentUser() user: UserDocument, @Res({ passthrough: true }) response: Response) {
-    const jwt = this.authService.login(user, response);
+    const jwt = await this.authService.login(user, response);
     response.send(jwt);
   }
 
