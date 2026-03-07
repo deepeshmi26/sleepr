@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Inject, Injectable, Logger, Unauthorized
 import { ClientProxy } from "@nestjs/microservices";
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { AUTH_SERVICE } from "../constants";
-import { UserDto } from "../dto";
+import { User } from "../models";
 import { Reflector } from "@nestjs/core";
 
 @Injectable()
@@ -18,14 +18,14 @@ export class JwtAuthGuard implements CanActivate {
 
         const roles = this.reflector.get("roles", context.getHandler());
 
-        return this.authClient.send<UserDto>('authenticate', {
+        return this.authClient.send<User>('authenticate', {
             Authentication: token,
         }).pipe(
             tap((res) => {
                 if (roles) {
                     for (const role of roles) {
-                        if (!res.roles?.includes(role)) {
-                            this.logger.error(`User ${res._id} does not have role ${role}`);
+                        if (!res.roles?.map(role => role.name).includes(role)) {
+                            this.logger.error(`User ${res.id} does not have role ${role}`);
                             throw new UnauthorizedException('Unauthorized');
                         }
                     }

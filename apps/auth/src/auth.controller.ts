@@ -5,7 +5,7 @@ import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { UserDocument } from '@app/common';
+import { User } from '@app/common';
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
@@ -16,7 +16,7 @@ export class AuthController {
   }
   @UseGuards(LocalAuthGuard)
   @Post("login")
-  async login(@CurrentUser() user: UserDocument, @Res({ passthrough: true }) response: Response) {
+  async login(@CurrentUser() user: User, @Res({ passthrough: true }) response: Response) {
     const jwt = await this.authService.login(user, response);
     response.send(jwt);
   }

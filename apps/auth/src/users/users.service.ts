@@ -1,16 +1,18 @@
+import { Role, User } from '@app/common';
 import { Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UsersRepository } from './users.repository';
-import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcryptjs';
+import { CreateUserDto } from './dto/create-user.dto';
 import { GetUserDto } from './dto/get-user.dto';
+import { UsersRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
     constructor(private readonly usersRepository: UsersRepository) { }
     async create(createUserDTO: CreateUserDto) {
-        await this.validateCreateUserDto(createUserDTO);
-        return this.usersRepository.create({ ...createUserDTO, password: await bcrypt.hash(createUserDTO.password, 10) });
+        await this.validateCreateUser(createUserDTO);
+        const user = new User({ ...createUserDTO, password: await bcrypt.hash(createUserDTO.password, 10), roles: createUserDTO.roles?.map(role => new Role(role)) });
+
+        return this.usersRepository.create(user);
     }
 
     async validateUser(email: string, password: string) {
@@ -25,13 +27,13 @@ export class UsersService {
         return user;
     }
 
-    private async validateCreateUserDto(createUserDto: CreateUserDto) {
+    private async validateCreateUser(createUserDTO: CreateUserDto) {
         try {
-            const user = await this.usersRepository.findOne({ email: createUserDto.email });
+            const user = await this.usersRepository.findOne({ email: createUserDTO.email });
             if (user) {
                 throw new UnprocessableEntityException('User with this email already exists');
             }
-            return createUserDto;
+            return createUserDTO;
         } catch (error) {
             if (error.name === 'NotFoundException') {
                 return;
@@ -41,22 +43,11 @@ export class UsersService {
     }
 
     async getUser(getUserDto: GetUserDto) {
-        return this.usersRepository.findOne({ _id: getUserDto._id });
+        return this.usersRepository.findOne(getUserDto, { roles: true });
     }
 
     findAll() {
         return this.usersRepository.find({});
     }
 
-    findOne(_id: string) {
-        return this.usersRepository.findOne({ _id: _id });
-    }
-
-    update(_id: string, updateUserDto: UpdateUserDto) {
-        return this.usersRepository.findOneAndUpdate({ _id: _id }, { $set: updateUserDto });
-    }
-
-    remove(_id: string) {
-        return this.usersRepository.findOneAndDelete({ _id: _id });
-    }
 }

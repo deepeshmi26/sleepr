@@ -1,4 +1,6 @@
-import { IsArray, IsEmail, IsNotEmpty, IsOptional, IsString, IsStrongPassword } from "class-validator"
+import { Type } from "class-transformer";
+import { IsArray, IsEmail, IsOptional, IsStrongPassword, ValidateNested } from "class-validator";
+import { RoleDto } from "./role.dto";
 
 export class CreateUserDto {
     @IsEmail()
@@ -11,8 +13,8 @@ export class CreateUserDto {
 
     @IsArray()
     @IsOptional()
-    @IsString({ each: true })
-    @IsNotEmpty({ each: true })
-    roles?: string[];
+    @ValidateNested()
+    @Type(() => RoleDto)
+    roles?: RoleDto[];
 }
 

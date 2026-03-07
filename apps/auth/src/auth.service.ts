@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserDocument } from '@app/common';
+import { User } from '@app/common';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -8,9 +8,9 @@ import { TokenPayload } from './interfaces/token-payload.interface';
 export class AuthService {
   constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) { }
 
-  async login(user: UserDocument, response: Response) {
+  async login(user: User, response: Response) {
     const tokenPayload: TokenPayload = {
-      userId: user._id.toHexString(),
+      userId: user.id,
     };
     const expires = new Date();
     expires.setSeconds(expires.getSeconds() + this.configService.get('JWT_EXPIRATION'));
