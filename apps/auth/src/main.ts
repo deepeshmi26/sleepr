@@ -14,9 +14,9 @@ async function bootstrap() {
     }
   ));
   app.connectMicroservice({
-    transport: Transport.TCP, options: {
-      host: '0.0.0.0',
-      port: configService.get('TCP_PORT'),
+    transport: Transport.RMQ, options: {
+      urls: [configService.getOrThrow('RABBITMQ_URI')],
+      queue: "auth"
     }
   })
   app.use(cookieParser.default());

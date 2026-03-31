@@ -74,3 +74,10 @@ services:
       - .env
     ports:
       - '5432:5432'
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
